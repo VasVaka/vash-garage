@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог | ВашГараж</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 40vh;
+        }
+        
+        .garage-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+        
+		.roof-btn1 {
+            
+        }
+		
+        .roof-btn1.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+		.roof-btn2 {
+            
+        }
+		
+        .roof-btn2.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+		
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-swatch.selected {
+            border: 3px solid #3b82f6;
+            transform: scale(1.1);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        #main-garage-image {
+            transition: opacity 0.3s ease;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 8px;
+        }
+        
+        .feature-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+        
+        .feature-text {
+            font-size: 14px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .price-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .current-price {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        
+        .old-price {
+            font-size: 1.25rem;
+            color: #6b7280;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+        
+        .discount-badge {
+            background-color: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .image-features-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .additional-features-pc {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+        
+        .catalog-item {
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .catalog-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .feature-text {
+                font-size: 16px;
+            }
+            
+            .price-block {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .price-row {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .current-price {
+                font-size: 2rem;
+            }
+            
+            .old-price {
+                font-size: 1.5rem;
+            }
+            
+            .discount-badge {
+                font-size: 1rem;
+                padding: 0.375rem 1rem;
+            }
+        }
+		
+		.custom-project-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .custom-project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+		.modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+    <!-- Header/Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-warehouse text-blue-600 text-3xl mr-2"></i>
+                <span class="text-2xl font-bold text-blue-600">Ваш<span class="text-orange-500">Гараж</span></span>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-blue-600 font-medium hover:text-orange-500 transition">Главная</a>
+                <a href="#" class="text-gray-600 hover:text-orange-500 transition">Каталог</a>
+                <a href="#" class="text-gray-600 hover:text-orange-500 transition">Услуги</a>
+                <a href="#" class="text-gray-600 hover:text-orange-500 transition">Галерея</a>
+                <a href="#" class="text-gray-600 hover:text-orange-500 transition">Контакты</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-4 px-4 shadow-lg">
+            <a href="#" class="block py-2 text-blue-600 font-medium">Главная</a>
+            <a href="#" class="block py-2 text-gray-600">Каталог</a>
+            <a href="#" class="block py-2 text-gray-600">Услуги</a>
+            <a href="#" class="block py-2 text-gray-600">Галерея</a>
+            <a href="#" class="block py-2 text-gray-600">Контакты</a>
+            <a href="#" class="block mt-4 bg-blue-600 text-white py-2 px-4 rounded-md text-center font-medium hover:bg-blue-700 transition">Бесплатная смета</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero flex items-center justify-center text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-4">Каталог</h1>
+            <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto">Современные гаражи из сэндвич-панелей <br> <b>Готовые решения / Индивидуальная конфигурация</b></p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <!-- First Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Garage Images and Additional Features for PC -->
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img id="main-garage-image1" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Премиум" class="w-full h-auto">
+                        </div>
+                        
+                        <!-- Additional Features for PC -->
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-tools text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ремонтная яма</h3>
+                                    <p class="text-xs text-gray-600">Удобная яма для самостоятельного ремонта</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-lightbulb text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Электрика</h3>
+                                    <p class="text-xs text-gray-600">Розетки и освещение</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-shield-alt text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Охрана</h3>
+                                    <p class="text-xs text-gray-600">Сигнализация и видеонаблюдение</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-warehouse text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Навес</h3>
+                                    <p class="text-xs text-gray-600">Для хранения инструментов</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					
+                    <!-- Garage Details -->
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Премиум</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-gray-600">4.7 (24 отзыва)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Прочный и надежный гараж из сэндвич-панелей с утеплением. Идеальное решение для защиты вашего автомобиля в любых погодных условиях.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button id = "btn1" class="roof-btn1 active px-4 py-2 border rounded-md" data-roof-type="side" onclick=before1()>
+                                        Скат в сторону
+                                    </button>
+                                    <button id = "btn2" class="roof-btn1 px-4 py-2 border rounded-md transition" data-roftype="back" onclick=after1()>
+                                        Скат назад
+                                    </button>
+                                    <button id = "btn3" class="roof-btn1 px-4 py-2 border rounded-md transition" data-roof-type="back" onclick=after11()>
+                                        Двускатная
+                                    </button>
+                                </div>
+                            </div>
+                            
+							
+							
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #005F8E;" data-color="RAL 5017" title="RAL 5017 - Морская синь"></div>
+                                    <div class="color-swatch" style="background-color: #1F4E79;" data-color="RAL 5022" title="RAL 5022 - Ночная синь"></div>
+                                    <div class="color-swatch" style="background-color: #404040;" data-color="RAL 7021" title="RAL 7021 - Черный графит"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;" data-color="RAL 7037" title="RAL 7037 - Пыльно-серый"></div>
+                                    <div class="color-swatch" style="background-color: #9B9B9B;" data-color="RAL 7038" title="RAL 7038 - Агатовый серый"></div>
+                                    <div class="color-swatch" style="background-color: #A3A3A3;" data-color="RAL 9002" title="RAL 9002 - Светло-серый"></div>
+                                    <div class="color-swatch" style="background-color: #D0D0D0;" data-color="RAL 9003" title="RAL 9003 - Сигнальный белый"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;" data-color="RAL 9016" title="RAL 9016 - Транспортный белый"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-robot"></i>
+                                            </div>
+                                            <span class="feature-text">Автоматика для ворот</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-window-maximize"></i>
+                                            </div>
+                                            <span class="feature-text">Окно</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-bolt"></i>
+                                            </div>
+                                            <span class="feature-text">Электрика</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-boxes"></i>
+                                            </div>
+                                            <span class="feature-text">Стеллажи</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Оптимизированный блок цены -->
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">289 900 ₽</span>
+                                        <span class="old-price">319 900 ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img id = "main-garage-image2" src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Компакт" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-car text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">1 машиноместо</h3>
+                                    <p class="text-xs text-gray-600">Оптимально для одного автомобиля</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-door-closed text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ворота</h3>
+                                    <p class="text-xs text-gray-600">Секционные подъемные</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-snowflake text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Утепление</h3>
+                                    <p class="text-xs text-gray-600">100 мм сэндвич-панели</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-lightbulb text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Освещение</h3>
+                                    <p class="text-xs text-gray-600">Светодиодные светильники</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Компакт</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-gray-600">5.0 (18 отзывов)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Компактный гараж для небольших участков. Несмотря на скромные размеры, обеспечивает надежную защиту автомобиля.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button id = "btn3" class="roof-btn2 active px-4 py-2 border rounded-md" onclick=before2()>
+                                        Скат в сторону
+                                    </button>
+                                    <button id = "btn4" class="roof-btn2 px-4 py-2 border rounded-md" onclick=after2()>
+                                        Двускатная
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #005F8E;" data-color="RAL 5017" title="RAL 5017 - Морская синь"></div>
+                                    <div class="color-swatch" style="background-color: #1F4E79;" data-color="RAL 5022" title="RAL 5022 - Ночная синь"></div>
+                                    <div class="color-swatch" style="background-color: #404040;" data-color="RAL 7021" title="RAL 7021 - Черный графит"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;" data-color="RAL 7037" title="RAL 7037 - Пыльно-серый"></div>
+                                    <div class="color-swatch" style="background-color: #9B9B9B;" data-color="RAL 7038" title="RAL 7038 - Агатовый серый"></div>
+                                    <div class="color-swatch" style="background-color: #A3A3A3;" data-color="RAL 9002" title="RAL 9002 - Светло-серый"></div>
+                                    <div class="color-swatch" style="background-color: #D0D0D0;" data-color="RAL 9003" title="RAL 9003 - Сигнальный белый"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;" data-color="RAL 9016" title="RAL 9016 - Транспортный белый"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-key"></i>
+                                            </div>
+                                            <span class="feature-text">Замок сейфового типа</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-plug"></i>
+                                            </div>
+                                            <span class="feature-text">Розетка 220В</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-broom"></i>
+                                            </div>
+                                            <span class="feature-text">Пол с покрытием</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-fan"></i>
+                                            </div>
+                                            <span class="feature-text">Вентиляция</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">189 900 ₽</span>
+                                        <span class="old-price">209 900 ₽</span>
+                                    </div>
+                                    <div class="discount-badge">-10%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Стандарт" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-car text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">2 машиноместа</h3>
+                                    <p class="text-xs text-gray-600">Просторный гараж на два автомобиля</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-door-open text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ворота</h3>
+                                    <p class="text-xs text-gray-600">Распашные металлические</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-thermometer-half text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Утепление</h3>
+                                    <p class="text-xs text-gray-600">150 мм сэндвич-панели</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-toolbox text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Хранение</h3>
+                                    <p class="text-xs text-gray-600">Полки для инструментов</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Стандарт</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-gray-600">4.5 (32 отзыва)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Стандартный гараж для двух автомобилей с увеличенной площадью для хранения инструментов и вещей.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="roof-btn active px-4 py-2 border rounded-md">
+                                        Двускатная
+                                    </button>
+                                    <button class="roof-btn px-4 py-2 border rounded-md">
+                                        Скат назад
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #1F4E79;"></div>
+                                    <div class="color-swatch" style="background-color: #404040;"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;"></div>
+                                    <div class="color-swatch" style="background-color: #A3A3A3;"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-plug"></i>
+                                            </div>
+                                            <span class="feature-text">3 розетки 220В</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                            <span class="feature-text">4 светильника</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-faucet"></i>
+                                            </div>
+                                            <span class="feature-text">Подвод воды</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-window-maximize"></i>
+                                            </div>
+                                            <span class="feature-text">2 окна</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">349 900 ₽</span>
+                                        <span class="old-price">379 900 ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fourth Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Люкс" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-car text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">2 машиноместа</h3>
+                                    <p class="text-xs text-gray-600">Просторный гараж с зоной хранения</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-door-closed text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ворота</h3>
+                                    <p class="text-xs text-gray-600">Автоматические секционные</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-thermometer-three-quarters text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Утепление</h3>
+                                    <p class="text-xs text-gray-600">200 мм сэндвич-панели</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-couch text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Зона отдыха</h3>
+                                    <p class="text-xs text-gray-600">Диван и стол</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Люкс</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-gray-600">5.0 (12 отзывов)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Премиальный гараж с увеличенной площадью, зоной отдыха и хранения. Идеальное решение для тех, кто ценит комфорт.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="roof-btn active px-4 py-2 border rounded-md">
+                                        Двускатная
+                                    </button>
+                                    <button class="roof-btn px-4 py-2 border rounded-md">
+                                        Скат назад
+                                    </button>
+                                    <button class="roof-btn px-4 py-2 border rounded-md">
+                                        Плоская
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #005F8E;"></div>
+                                    <div class="color-swatch" style="background-color: #1F4E79;"></div>
+                                    <div class="color-swatch" style="background-color: #404040;"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-tv"></i>
+                                            </div>
+                                            <span class="feature-text">Телевизор</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-coffee"></i>
+                                            </div>
+                                            <span class="feature-text">Кофемашина</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-shower"></i>
+                                            </div>
+                                            <span class="feature-text">Душ</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-wifi"></i>
+                                            </div>
+                                            <span class="feature-text">Wi-Fi</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">589 900 ₽</span>
+                                        <span class="old-price">649 900 ₽</span>
+                                    </div>
+                                    <div class="discount-badge">-10%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flexocol sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fifth Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Мастер" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-car text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">1 машиноместо</h3>
+                                    <p class="text-xs text-gray-600">Плюс рабочая зона</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-door-open text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ворота</h3>
+                                    <p class="text-xs text-gray-600">Распашные утепленные</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-tools text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Мастерская</h3>
+                                    <p class="text-xs text-gray-600">Верстак и инструменты</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-boxes text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Хранение</h3>
+                                    <p class="text-xs text-gray-600">Стеллажи и шкафы</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Мастер</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-gray-600">4.3 (27 отзывов)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Гараж с оборудованной мастерской для ремонта и творчества. Идеально подходит для мастеров и умельцев.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="roof-btn active px-4 py-2 border rounded-md">
+                                        Двускатная
+                                    </button>
+                                    <button class="roof-btn px-4 py-2 border rounded-md">
+                                        Скат назад
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #1F4E79;"></div>
+                                    <div class="color-swatch" style="background-color: #404040;"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;"></div>
+                                    <div class="color-swatch, style="background-color: #9B9B9B;"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-plug"></i>
+                                            </div>
+                                            <span class="feature-text">5 розеток 220В</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                            <span class="feature-text">6 светильников</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-compress-arrows-alt"></i>
+                                            </div>
+                                            <span class="feature-text">Компрессор</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-fan"></i>
+                                            </div>
+                                            <span class="feature-text">Вытяжка</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">329 900 ₽</span>
+                                        <span class="old-price">359 900 ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sixth Catalog Item -->
+            <div class="catalog-item">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="lg:w-1/2 image-features-container">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 alt="Гараж Мини" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="hidden lg:block additional-features-pc bg-white rounded-lg shadow-md p-4">
+                            <h2 class="text-lg font-bold mb-3 text-center">Дополнительные возможности</h2>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-blue-100 text-blue-600">
+                                        <i class="fas fa-motorcycle text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Для мотоцикла</h3>
+                                    <p class="text-xs text-gray-600">Компактное решение</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-orange-100 text-orange-600">
+                                        <i class="fas fa-door-closed text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Ворота</h3>
+                                    <p class="text-xs text-gray-600">Распашные металлические</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-green-100 text-green-600">
+                                        <i class="fas fa-lock text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Замок</h3>
+                                    <p class="text-xs text-gray-600">Надежная защита</p>
+                                </div>
+                                
+                                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-3 text-center">
+                                    <div class="garage-icon bg-purple-100 text-purple-600">
+                                        <i class="fas fa-bolt text-lg"></i>
+                                    </div>
+                                    <h3 class="font-medium mb-1 text-sm">Электрика</h3>
+                                    <p class="text-xs text-gray-600">Розетка и освещение</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-1/2">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold mb-4">Гараж Мини</h2>
+                            <div class="flex items-center mb-4">
+                                <div class="flex text-yellow-400 mr-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-gray-600">4.9 (15 отзывов)</span>
+                            </div>
+                            <p class="text-gray-700 mb-6">Миниатюрный гараж для мотоцикла, квадроцикла или садовой техники. Отличное решение при ограниченном пространстве.</p>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Тип кровли</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <button class="roof-btn active px-4 py-2 border rounded-md">
+                                        Скат в сторону
+                                    </button>
+                                    <button class="roof-btn px-4 py-2 border rounded-md">
+                                        Двускатная
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Цвет (RAL)</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <div class="color-swatch selected" style="background-color: #005F8E;"></div>
+                                    <div class="color-swatch" style="background-color: #1F4E79;"></div>
+                                    <div class="color-swatch" style="background-color: #404040;"></div>
+                                    <div class="color-swatch" style="background-color: #7F7F7F;"></div>
+                                    <div class="color-swatch" style="background-color: #F0F0F0;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-bold text-lg mb-3">Дополнительные функции</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-blue-100 text-blue-600">
+                                                <i class="fas fa-plug"></i>
+                                            </div>
+                                            <span class="feature-text">Розетка 220В</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-green-100 text-green-600">
+                                                <i class="fas fa-lightbulb"></i>
+                                            </div>
+                                            <span class="feature-text">Светильник</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-orange-100 text-orange-600">
+                                                <i class="fas fa-toolbox"></i>
+                                            </div>
+                                            <span class="feature-text">Полка</span>
+                                        </div>
+                                    </div>
+                                    <div class="feature-card bg-gray-50 rounded-lg">
+                                        <div class="feature-item">
+                                            <div class="feature-icon bg-purple-100 text-purple-600">
+                                                <i class="fas fa-warehouse"></i>
+                                            </div>
+                                            <span class="feature-text">Крюки</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="price-block">
+                                <div class="price-row">
+                                    <div>
+                                        <span class="current-price">129 900 ₽</span>
+                                        <span class="old-price">149 900 ₽</span>
+                                    </div>
+                                    <div class="discount-badge">-15%</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-shopping-cart mr-2"></i> Купить сейчас
+                                </button>
+                                <button class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 py-3 px-6 rounded-md font-medium transition flex items-center justify-center">
+                                    <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Features for Mobile -->
+    <section class="lg:hidden py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Дополнительные возможности</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-6 text-center">
+                    <div class="garage-icon bg-blue-100 text-blue-600">
+                        <i class="fas fa-tools text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Ремонтная яма</h3>
+                    <p class="text-gray-600">Удобная яма для самостоятельного ремонта автомобиля</p>
+                </div>
+                
+                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-6 text-center">
+                    <div class="garage-icon bg-orange-100 text-orange-600">
+                        <i class="fas fa-lightbulb text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Электрика</h3>
+                    <p class="text-gray-600">Полная электрификация гаража с розетками и освещением</p>
+                </div>
+                
+                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-6 text-center">
+                    <div class="garage-icon bg-green-100 text-green-600">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Охрана</h3>
+                    <p class="text-gray-600">Система сигнализации и видеонаблюдения для вашего гаража</p>
+                </div>
+                
+                <div class="feature-card bg-gray-50 rounded-lg shadow-sm p-6 text-center">
+                    <div class="garage-icon bg-purple-100 text-purple-600">
+                        <i class="fas fa-warehouse text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Навес</h3>
+                    <p class="text-gray-600">Дополнительный навес для хранения инструментов или дров</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- Custom Project Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Индивидуальные проекты гаражей</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Создаем гаражи по вашим размерам и требованиям с учетом всех пожеланий</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
+                <div class="order-2 lg:order-1">
+                    <div class="bg-white rounded-xl custom-project-card p-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Разработка индивидуального проекта</h2>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="feature-icon bg-blue-100 text-blue-600">
+                                    <i class="fas fa-ruler-combined text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800 mb-1">Любые размеры</h3>
+                                    <p class="text-gray-600">Мы создадим гараж именно тех габаритов, которые вам нужны - от компактного до просторного гаража на несколько автомобилей.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="feature-icon bg-orange-100 text-orange-600">
+                                    <i class="fas fa-palette text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800 mb-1">Выбор цветов и материалов</h3>
+                                    <p class="text-gray-600">Более 50 вариантов цветов по шкале RAL и различные материалы отделки на ваш выбор.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="feature-icon bg-green-100 text-green-600">
+                                    <i class="fas fa-tools text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-gray-800 mb-1">Дополнительные функции</h3>
+                                    <p class="text-gray-600">Ремонтная яма, система отопления, освещение, видеонаблюдение, автоматические ворота и многое другое.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <button id="order-project-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition flex items-center justify-center">
+                                <i class="fas fa-file-alt mr-2"></i> Заказать проект
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Индивидуальный гараж" class="w-full h-auto">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-8 max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Как заказать индивидуальный проект?</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="bg-blue-100 text-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-phone-alt text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">1. Консультация</h3>
+                        <p class="text-gray-600">Обсудите с нашим специалистом ваши пожелания и требования к гаражу.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="bg-orange-100 text-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-pencil-ruler text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">2. Проектирование</h3>
+                        <p class="text-gray-600">Наши инженеры разработают для вас 3D-проект с учетом всех деталей.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="bg-green-100 text-green-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-truck text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">3. Реализация</h3>
+                        <p class="text-gray-600">Изготовление и доставка гаража на ваш участок в согласованные сроки.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <button class="bg-orange-500 hover:bg-orange-600 text-white py-3 px-8 rounded-lg font-medium transition inline-flex items-center">
+                        <i class="fas fa-calendar-alt mr-2"></i> Записаться на консультацию
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Form -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content bg-white rounded-lg w-full max-w-md mx-4">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800">Заказать индивидуальный проект</h3>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="order-form" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-gray-700 mb-1">Ваше имя</label>
+                        <input type="text" id="name" name="name" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-gray-700 mb-1">Телефон</label>
+                        <input type="tel" id="phone" name="phone" required 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-gray-700 mb-1">Ваши пожелания</label>
+                        <textarea id="message" name="message" rows="4" 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+                    
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition">
+                            Отправить заявку
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-warehouse text-blue-400 text-3xl mr-2"></i>
+                        <span class="text-2xl font-bold">Ваш<span class="text-orange-400">Гараж</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Строительство качественных гаражей по индивидуальным проектам с 2010 года.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-vk text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-telegram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Каталог</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Гаражи тип 1</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Гаражи тип 2</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Гаражи тип 3</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Гаражи тип 4</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Все модели</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Компания</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Наши работы</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Отзывы</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Вакансии</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Контакты</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
+                            <span>г. Москва, ул. Строителей, 15</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3"></i>
+                            <span>+7 (495) 123-45-67</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span>info@vashgarage.ru</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3"></i>
+                            <span>Пн-Пт: 9:00 - 18:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2023 ВашГараж. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+		
+		  // Modal functionality
+        const modal = document.getElementById('order-modal');
+        const orderBtn = document.getElementById('order-project-btn');
+        const closeBtn = document.getElementById('close-modal');
+        const orderForm = document.getElementById('order-form');
+
+        // Open modal
+        orderBtn.addEventListener('click', function() {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        // Close modal
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scrolling
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Enable scrolling
+            }
+        });
+
+        // Form submission
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For demonstration, we'll just show an alert and close the modal
+            alert('Ваша заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Enable scrolling
+            orderForm.reset();
+        });
+  </script>
+  
+  <script>
+	// Получаем все кнопки
+	const buttons = document.querySelectorAll('.roof-btn1');
+
+	// Назначаем обработчик клика для каждой кнопки
+	buttons.forEach(button => {
+		button.addEventListener('click', () => {
+	// Удаляем класс active у всех кнопок
+	buttons.forEach(btn => btn.classList.remove('active'));
+	// Добавляем класс active к нажатию
+	button.classList.add('active');
+		});
+	});
+	</script>
+	
+	<script>
+	// Получаем все кнопки
+	const buttons2 = document.querySelectorAll('.roof-btn2');
+
+	// Назначаем обработчик клика для каждой кнопки
+	buttons2.forEach(button => {
+		button.addEventListener('click', () => {
+	// Удаляем класс active у всех кнопок
+	buttons2.forEach(btn => btn.classList.remove('active'));
+	// Добавляем класс active к нажатию
+	button.classList.add('active');
+		});
+	});
+	</script>
+	
+	<script>
+		function before1(){
+			document.getElementById('main-garage-image1')
+			.src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+		}
+							
+		function after1(){
+			document.getElementById('main-garage-image1')
+			.src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+		}
+		function after11(){
+			document.getElementById('main-garage-image1')
+			.src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+		}
+	</script>
+	
+	<script>
+		function before2(){
+			document.getElementById('main-garage-image2')
+			.src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+		}
+							
+		function after2(){
+			document.getElementById('main-garage-image2')
+			.src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+		}
+	</script>
+
+</html>
